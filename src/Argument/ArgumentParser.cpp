@@ -13,7 +13,7 @@ std::vector<Argument> ArgumentParser::Parse(const int& argc, char* argv[])
     {
         std::string token = argv[i];
 
-        if (token.size() == 0 || token[0] != '-')
+        if (token.empty() || token[0] != '-')
             continue;
 
         const size_t name_start = 1;

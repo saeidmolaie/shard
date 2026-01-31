@@ -2,33 +2,29 @@
 
 #include <string>
 
+#include "ArgumentValidationIssueSeverity.hpp"
+
 struct ArgumentValidationIssue
 {
-    enum class Severity
-    {
-        Error,
-        Warning
-    };
-
     private:
-        Severity _severity;
         std::string _message;
+        ArgumentValidationIssueSeverity _severity;
 
     public:
-        explicit ArgumentValidationIssue(const Severity& severity, const std::string& message)
+        explicit ArgumentValidationIssue(const std::string& message, const ArgumentValidationIssueSeverity& severity)
         {
-            _severity = std::move(severity);
-            _message = std::move(message);
+            _message = message;
+            _severity = severity;
         }
 
     public:
-        const Severity& Severity() const
-        {
-            return _severity;
-        }
-
         const std::string& Message() const
         {
             return _message;
+        }
+
+        const ArgumentValidationIssueSeverity& Severity() const
+        {
+            return _severity;
         }
 };

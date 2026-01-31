@@ -28,16 +28,28 @@ struct ArgumentValidationResult
         }
 
     public:
+        void Add(const ArgumentValidationIssue& issue)
+        {
+            if(issue.Severity() == ArgumentValidationIssueSeverity::Error)
+            {
+                AddError(issue.Message());
+            }
+            else if (issue.Severity() == ArgumentValidationIssueSeverity::Warning)
+            {
+                AddWarning(issue.Message());
+            }
+        }
+
         void AddError(const std::string& message)
         {
             _hasErrors = true;
-            _issues.emplace_back(ArgumentValidationIssue::Severity::Error, message);
+            _issues.emplace_back(message, ArgumentValidationIssueSeverity::Error);
         }
 
         void AddWarning(const std::string& message)
         {
             _hasWarnings = true;
-            _issues.emplace_back(ArgumentValidationIssue::Severity::Warning, message);
+            _issues.emplace_back(message, ArgumentValidationIssueSeverity::Warning);
         }
 
     public:
@@ -61,10 +73,10 @@ struct ArgumentValidationResult
 
                 auto severity = issue.Severity();
 
-                if (severity == ArgumentValidationIssue::Severity::Error)
+                if (severity == ArgumentValidationIssueSeverity::Error)
                     _hasErrors = true;
 
-                else if (severity == ArgumentValidationIssue::Severity::Warning)
+                else if (severity == ArgumentValidationIssueSeverity::Warning)
                     _hasWarnings = true;
             }
         }
